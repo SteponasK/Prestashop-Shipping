@@ -1,0 +1,23 @@
+{
+  "name": "invertus/academyerpintegration",
+  "type": "prestashop-module",
+  "authors": [
+    {
+      "name": "Invertus",
+      "email": "help@invertus.eu"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Invertus\\AcademyERPIntegration\\": "src/"
+    }
+  },
+  "config": {
+    "platform": {
+      "php": "8.1"
+    }
+  },
+  "require": {
+    "php": ">=8.1"
+  }
+}

@@ -1,0 +1,19 @@
+services:
+    _defaults:
+        public: true
+
+    academyerpintegration:
+        class: 'AcademyERPIntegration'
+        factory: [ 'Module', 'getInstanceByName' ]
+        arguments:
+            - 'academyerpintegration'
+
+    Invertus\AcademyERPIntegration\Install\Installer:
+        class: Invertus\AcademyERPIntegration\Install\Installer
+        arguments:
+            - '@academyerpintegration'
+
+    Invertus\AcademyERPIntegration\Install\Uninstaller:
+        class: Invertus\AcademyERPIntegration\Install\Uninstaller
+        arguments:
+            - '@academyerpintegration'
