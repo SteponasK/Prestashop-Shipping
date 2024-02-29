@@ -15,12 +15,12 @@ use Invertus\AcademyERPIntegration\Install\Installer;
 use Invertus\AcademyERPIntegration\Install\Uninstaller;
 use Invertus\AcademyERPIntegration\Config\Config;
 
-class AcademyERPIntegration extends CarrierModule
+class AcademyShipping extends CarrierModule
 {
     public function __construct()
     {
         $this->tab = 'other_modules';
-        $this->name = 'academyerpintegration';
+        $this->name = 'academyshipping';
         $this->version = '1.0.0';
         $this->author = 'Invertus';
 
