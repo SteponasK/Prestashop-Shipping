@@ -43,6 +43,7 @@ class Uninstaller extends AbstractInstaller
     {
         $this->uninstallConfiguration();
 
+
         if (!$this->uninstallDb()) {
             return false;
         }

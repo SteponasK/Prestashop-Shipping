@@ -15,12 +15,12 @@ use Invertus\AcademyERPIntegration\Install\Installer;
 use Invertus\AcademyERPIntegration\Install\Uninstaller;
 use Invertus\AcademyERPIntegration\Config\Config;
 
-class AcademyShipping extends CarrierModule
+class AcademyERPIntegration extends CarrierModule
 {
     public function __construct()
     {
         $this->tab = 'other_modules';
-        $this->name = 'academyshipping';
+        $this->name = 'academyerpintegration';
         $this->version = '1.0.0';
         $this->author = 'Invertus';
 
@@ -51,9 +51,11 @@ class AcademyShipping extends CarrierModule
 
     /**
      * {@inheritdoc}
+     * @throws Exception
      */
     public function install(): bool
     {
+
         /** Symfony container not used intentionally */
         $installer = new Installer($this);
 
@@ -75,6 +77,11 @@ class AcademyShipping extends CarrierModule
     public function hookActionDispatcherBefore(): void
     {
         $this->autoLoad();
+    }
+
+    public function hookDisplayAdminOrderMain($params): string
+    {
+        return 'test';
     }
 
     /**
