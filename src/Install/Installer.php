@@ -51,21 +51,27 @@ class Installer extends AbstractInstaller
         $this->registerHooks();
         $this->installConfiguration();
         $this->installDb();
+        if (!$this->installCarrier())
+        {
+            return false;
+        };
+        return true;
+    }
+
+    public function installCarrier(): bool
+    {
 
         $carrier = New Carrier();
-
         $carrier->name = 'Academy Carrier';
         $carrier->active = true;
         $carrier->deleted = false;
         $carrier->is_module = true;
         $carrier->external_module_name = 'academyerpintegration';
-
         $carrier->shipping_handling = false;
         $carrier->shipping_external = true;
         $carrier->range_behavior = false;
         $carrier->need_range = true;
         $carrier->is_free = true;
-
         $carrier->setTaxRulesGroup(0);
 
         foreach (Language::getLanguages(false) as $language)
@@ -77,7 +83,6 @@ class Installer extends AbstractInstaller
         {
             return false;
         }
-
 
         foreach (Zone::getZones(true) as $zone)
         {
