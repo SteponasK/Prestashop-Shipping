@@ -1,0 +1,75 @@
+<div class="card mt-2" id="view_shipment_label_block">
+    <div class="card-header">
+        <h3 class="card-header-title">
+            Shipping Label
+        </h3>
+    </div>
+    <div>
+        <form class="form-wrapper" action="">
+        <table class="table" data-role="payments-grid-table">
+            <thead>
+                <tr>
+                    <th class="table-header">Company</th>
+                    <th class="table-header">First Name</th>
+                    <th class="table-header">Last Name</th>
+                    <th class="table-header">Phone</th>
+                    <th class="table-header">Mobile</th>
+                    <th>
+                        <button type="submit" class="table-header btn btn-primary btn-sm">{{ 'Get Label'|trans({}, 'Admin.Actions') }}</button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" id="cname" name="cname" value="{{ cName }}"><br>
+                    </td>
+                    <td>
+                        <input type="text" id="fname" name="fname" value="{{ fName }}"><br>
+                    </td>
+                    <td>
+                        <input type="text" id="lname" name="lname" value="{{ lName }}">
+                    </td>
+                    <td>
+                        <input type="text" id="phone" name="phone" value="{{ phone }}">
+                    </td>
+                    <td>
+                        <input type="text" id="mobile" name="mobile" value="{{ mobile }}">
+                    </td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th class="table-header">Address 1</th>
+                    <th class="table-header">Address 2</th>
+                    <th class="table-header">Post Code</th>
+                    <th class="table-header">City</th>
+                    <th class="table-header">Country</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" id="address1" name="address1" value="{{ address1 }}"><br>
+                    </td>
+                    <td>
+                        <input type="text" id="address2" name="address2" value="{{ address2 }}"><br>
+                    </td>
+                    <td>
+                        <input type="text" id="postcode" name="postcode" value="{{ postcode }}">
+                    </td>
+                    <td>
+                        <input type="text" id="city" name="city" value="{{ city }}">
+                    </td>
+                    <td>
+                        <input type="text" id="country" name="country" value="{{ country }}">
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+        </form>
+    </div>
+
+</div>

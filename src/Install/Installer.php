@@ -70,7 +70,7 @@ class Installer extends AbstractInstaller
 
         foreach (Language::getLanguages(false) as $language)
         {
-            $carrier->delay[$language['id_lang']] = 'delay';
+            $carrier->delay[$language['id_lang']] = 'Academy Carrier delay text';
         }
 
         if (!$carrier->add())

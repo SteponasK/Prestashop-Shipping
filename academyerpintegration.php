@@ -14,6 +14,7 @@ use Invertus\AcademyERPIntegration\Config\TabConfig;
 use Invertus\AcademyERPIntegration\Install\Installer;
 use Invertus\AcademyERPIntegration\Install\Uninstaller;
 use Invertus\AcademyERPIntegration\Config\Config;
+use PrestaShop\PrestaShop\Core\Exception\ContainerNotFoundException;
 
 class AcademyERPIntegration extends CarrierModule
 {
@@ -79,9 +80,35 @@ class AcademyERPIntegration extends CarrierModule
         $this->autoLoad();
     }
 
-    public function hookDisplayAdminOrderMain($params): string
+    /**
+     * @param array $params
+     * @throws ContainerNotFoundException
+     */
+    public function hookDisplayAdminOrderMain(array $params)
     {
-        return 'test';
+        $twig = $this->getContainer()->get('twig');
+        $order = new Order($params['id_order']);
+        $externalModuleName = Carrier::getCarrierByReference($order->getIdOrderCarrier())->external_module_name;
+        $address = new Address($order->id_address_delivery);
+        dump($address);
+
+        if ($externalModuleName == 'academyerpintegration')
+        {
+            return $twig->render(
+                '@Modules/academyerpintegration/src/views/shipping_label.html.twig',
+                [
+                    'cName' => $address->company,
+                    'fName' => $address->firstname,
+                    'lName' => $address->lastname,
+                    'city' => $address->city,
+                    'country' => $address->country,
+                    'address1' => $address->address1,
+                    'address2' => $address->address2,
+                    'postcode' => $address->postcode,
+                    'phone' => $address->phone,
+                    'mobile' => $address->phone_mobile
+                ]);
+        }
     }
 
     /**
