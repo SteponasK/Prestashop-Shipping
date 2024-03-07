@@ -80,7 +80,6 @@ class AcademyERPIntegration extends CarrierModule
         $this->autoLoad();
     }
 
-<<<<<<< HEAD
     /**
      * @param array $params
      * @throws ContainerNotFoundException
@@ -110,11 +109,6 @@ class AcademyERPIntegration extends CarrierModule
                     'mobile' => $address->phone_mobile
                 ]);
         }
-=======
-    public function hookDisplayAdminOrderMain($params)
-    {
-        // TODO: Implement hookDisplayAdminOrderMain method.
->>>>>>> main
     }
 
     /**
