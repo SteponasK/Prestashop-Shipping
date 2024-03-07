@@ -79,9 +79,9 @@ class AcademyERPIntegration extends CarrierModule
         $this->autoLoad();
     }
 
-    public function hookDisplayAdminOrderMain($params): string
+    public function hookDisplayAdminOrderMain($params)
     {
-        return 'test';
+        // TODO: Implement hookDisplayAdminOrderMain method.
     }
 
     /**
