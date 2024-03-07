@@ -47,7 +47,6 @@ class Installer extends AbstractInstaller
      */
     public function init(): bool
     {
-
         $this->registerHooks();
         $this->installConfiguration();
         $this->installDb();
@@ -60,13 +59,12 @@ class Installer extends AbstractInstaller
 
     public function installCarrier(): bool
     {
-
         $carrier = New Carrier();
         $carrier->name = 'Academy Carrier';
         $carrier->active = true;
         $carrier->deleted = false;
         $carrier->is_module = true;
-        $carrier->external_module_name = 'academyerpintegration';
+        $carrier->external_module_name = $this->module->name;
         $carrier->shipping_handling = false;
         $carrier->shipping_external = true;
         $carrier->range_behavior = false;
@@ -76,7 +74,7 @@ class Installer extends AbstractInstaller
 
         foreach (Language::getLanguages(false) as $language)
         {
-            $carrier->delay[$language['id_lang']] = 'delay';
+            $carrier->delay[$language['id_lang']] = 'Academy Carrier delay text';
         }
 
         if (!$carrier->add())
