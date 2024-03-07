@@ -64,7 +64,7 @@ class Installer extends AbstractInstaller
         $carrier->active = true;
         $carrier->deleted = false;
         $carrier->is_module = true;
-        $carrier->external_module_name = 'academyerpintegration';
+        $carrier->external_module_name = $this->module->name;
         $carrier->shipping_handling = false;
         $carrier->shipping_external = true;
         $carrier->range_behavior = false;

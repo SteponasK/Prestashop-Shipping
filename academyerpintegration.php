@@ -91,7 +91,7 @@ class AcademyERPIntegration extends CarrierModule
         $externalModuleName = Carrier::getCarrierByReference($order->getIdOrderCarrier())->external_module_name;
         $address = new Address($order->id_address_delivery);
 
-        if ($externalModuleName == 'academyerpintegration')
+        if ($externalModuleName == $this->name)
         {
             return $twig->render(
                 '@Modules/academyerpintegration/src/views/shipping_label.html.twig',
