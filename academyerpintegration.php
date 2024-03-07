@@ -90,7 +90,6 @@ class AcademyERPIntegration extends CarrierModule
         $order = new Order($params['id_order']);
         $externalModuleName = Carrier::getCarrierByReference($order->getIdOrderCarrier())->external_module_name;
         $address = new Address($order->id_address_delivery);
-        dump($address);
 
         if ($externalModuleName == 'academyerpintegration')
         {

@@ -47,7 +47,6 @@ class Installer extends AbstractInstaller
      */
     public function init(): bool
     {
-
         $this->registerHooks();
         $this->installConfiguration();
         $this->installDb();
@@ -60,7 +59,6 @@ class Installer extends AbstractInstaller
 
     public function installCarrier(): bool
     {
-
         $carrier = New Carrier();
         $carrier->name = 'Academy Carrier';
         $carrier->active = true;
