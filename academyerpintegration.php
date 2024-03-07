@@ -86,13 +86,14 @@ class AcademyERPIntegration extends CarrierModule
      */
     public function hookDisplayAdminOrderMain(array $params)
     {
-        $twig = $this->getContainer()->get('twig');
         $order = new Order($params['id_order']);
         $externalModuleName = Carrier::getCarrierByReference($order->getIdOrderCarrier())->external_module_name;
-        $address = new Address($order->id_address_delivery);
 
         if ($externalModuleName == $this->name)
         {
+            $twig = $this->getContainer()->get('twig');
+            $address = new Address($order->id_address_delivery);
+
             return $twig->render(
                 '@Modules/academyerpintegration/views/admin/shipping_label.html.twig',
                 [
@@ -105,7 +106,7 @@ class AcademyERPIntegration extends CarrierModule
                     'address2' => $address->address2,
                     'postcode' => $address->postcode,
                     'phone' => $address->phone,
-                    'mobile' => $address->phone_mobile
+                    'mobile' => $address->phone_mobile,
                 ]);
         }
     }
