@@ -15,7 +15,7 @@ use Invertus\AcademyERPIntegration\Install\Installer;
 use Invertus\AcademyERPIntegration\Install\Uninstaller;
 use Invertus\AcademyERPIntegration\Config\Config;
 
-class AcademyERPIntegration extends Module
+class AcademyERPIntegration extends CarrierModule
 {
     public function __construct()
     {
@@ -51,9 +51,11 @@ class AcademyERPIntegration extends Module
 
     /**
      * {@inheritdoc}
+     * @throws Exception
      */
     public function install(): bool
     {
+
         /** Symfony container not used intentionally */
         $installer = new Installer($this);
 
@@ -77,6 +79,11 @@ class AcademyERPIntegration extends Module
         $this->autoLoad();
     }
 
+    public function hookDisplayAdminOrderMain($params)
+    {
+        // TODO: Implement hookDisplayAdminOrderMain method.
+    }
+
     /**
      * Autoload's project files from /src directory
      */
@@ -85,5 +92,15 @@ class AcademyERPIntegration extends Module
         $autoLoadPath = $this->getLocalPath() . 'vendor/autoload.php';
 
         require_once $autoLoadPath;
+    }
+
+    public function getOrderShippingCost($params, $shipping_cost)
+    {
+        // TODO: Implement getOrderShippingCost() method.
+    }
+
+    public function getOrderShippingCostExternal($params)
+    {
+        // TODO: Implement getOrderShippingCostExternal() method.
     }
 }

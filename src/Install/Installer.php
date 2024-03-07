@@ -12,11 +12,15 @@
 
 namespace Invertus\AcademyERPIntegration\Install;
 
+use Carrier;
 use Configuration;
 use Db;
 use Exception;
 use Invertus\AcademyERPIntegration\Config\InstallConfig;
 use AcademyERPIntegration;
+use Language;
+use PrestaShop\PrestaShop\Adapter\Entity\Shop;
+use PrestaShop\PrestaShop\Adapter\Entity\Zone;
 
 /**
  * Class Installer - responsible for module installation process
@@ -26,7 +30,7 @@ class Installer extends AbstractInstaller
     /**
      * @var AcademyERPIntegration
      */
-    private $module;
+    private AcademyERPIntegration $module;
 
     /**
      * @param AcademyERPIntegration $module
@@ -39,20 +43,57 @@ class Installer extends AbstractInstaller
 
     /**
      * {@inheritdoc}
+     * @throws Exception
      */
     public function init(): bool
     {
+
         $this->registerHooks();
         $this->installConfiguration();
         $this->installDb();
+        if (!$this->installCarrier())
+        {
+            return false;
+        };
+        return true;
+    }
+
+    public function installCarrier(): bool
+    {
+
+        $carrier = New Carrier();
+        $carrier->name = 'Academy Carrier';
+        $carrier->active = true;
+        $carrier->deleted = false;
+        $carrier->is_module = true;
+        $carrier->external_module_name = 'academyerpintegration';
+        $carrier->shipping_handling = false;
+        $carrier->shipping_external = true;
+        $carrier->range_behavior = false;
+        $carrier->need_range = true;
+        $carrier->is_free = true;
+        $carrier->setTaxRulesGroup(0);
+
+        foreach (Language::getLanguages(false) as $language)
+        {
+            $carrier->delay[$language['id_lang']] = 'delay';
+        }
+
+        if (!$carrier->add())
+        {
+            return false;
+        }
+
+        foreach (Zone::getZones(true) as $zone)
+        {
+            $carrier->addZone($zone['id_zone']);
+        }
 
         return true;
     }
 
     /**
-     * @return bool
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     private function registerHooks(): void
     {
@@ -74,9 +115,9 @@ class Installer extends AbstractInstaller
     /**
      * Installs global settings
      *
-     * @return bool
+     * @return void
      *
-     * @throws \Exception
+     * @throws Exception
      */
     private function installConfiguration(): void
     {
@@ -98,7 +139,7 @@ class Installer extends AbstractInstaller
     /**
      * Reads sql files and executes
      *
-     * @return bool
+     * @return void
      * @throws Exception
      */
     private function installDb(): void
