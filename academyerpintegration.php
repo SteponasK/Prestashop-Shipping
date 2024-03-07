@@ -94,7 +94,7 @@ class AcademyERPIntegration extends CarrierModule
         if ($externalModuleName == $this->name)
         {
             return $twig->render(
-                '@Modules/academyerpintegration/src/views/shipping_label.html.twig',
+                '@Modules/academyerpintegration/views/admin/shipping_label.html.twig',
                 [
                     'cName' => $address->company,
                     'fName' => $address->firstname,
