@@ -14,9 +14,8 @@ use Invertus\AcademyERPIntegration\Config\TabConfig;
 use Invertus\AcademyERPIntegration\Install\Installer;
 use Invertus\AcademyERPIntegration\Install\Uninstaller;
 use Invertus\AcademyERPIntegration\Config\Config;
-use PrestaShop\PrestaShop\Core\Exception\ContainerNotFoundException;
 
-class AcademyERPIntegration extends CarrierModule
+class AcademyERPIntegration extends Module
 {
     public function __construct()
     {
@@ -52,11 +51,9 @@ class AcademyERPIntegration extends CarrierModule
 
     /**
      * {@inheritdoc}
-     * @throws Exception
      */
     public function install(): bool
     {
-
         /** Symfony container not used intentionally */
         $installer = new Installer($this);
 
@@ -81,37 +78,6 @@ class AcademyERPIntegration extends CarrierModule
     }
 
     /**
-     * @param array $params
-     * @throws ContainerNotFoundException
-     */
-    public function hookDisplayAdminOrderMain(array $params)
-    {
-        $order = new Order($params['id_order']);
-        $externalModuleName = Carrier::getCarrierByReference($order->getIdOrderCarrier())->external_module_name;
-
-        if ($externalModuleName == $this->name)
-        {
-            $twig = $this->getContainer()->get('twig');
-            $address = new Address($order->id_address_delivery);
-
-            return $twig->render(
-                '@Modules/academyerpintegration/views/admin/shipping_label.html.twig',
-                [
-                    'cName' => $address->company,
-                    'fName' => $address->firstname,
-                    'lName' => $address->lastname,
-                    'city' => $address->city,
-                    'country' => $address->country,
-                    'address1' => $address->address1,
-                    'address2' => $address->address2,
-                    'postcode' => $address->postcode,
-                    'phone' => $address->phone,
-                    'mobile' => $address->phone_mobile,
-                ]);
-        }
-    }
-
-    /**
      * Autoload's project files from /src directory
      */
     private function autoLoad(): void
@@ -119,15 +85,5 @@ class AcademyERPIntegration extends CarrierModule
         $autoLoadPath = $this->getLocalPath() . 'vendor/autoload.php';
 
         require_once $autoLoadPath;
-    }
-
-    public function getOrderShippingCost($params, $shipping_cost)
-    {
-        // TODO: Implement getOrderShippingCost() method.
-    }
-
-    public function getOrderShippingCostExternal($params)
-    {
-        // TODO: Implement getOrderShippingCostExternal() method.
     }
 }

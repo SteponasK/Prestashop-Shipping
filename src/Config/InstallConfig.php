@@ -31,7 +31,7 @@ final class InstallConfig
      */
     public static function getHookList(): array
     {
-        return ['actionDispatcherBefore','displayAdminOrderMain']; // Hook list
+        return ['actionDispatcherBefore',]; // Hook list
     }
 
     /**
