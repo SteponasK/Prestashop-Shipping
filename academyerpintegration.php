@@ -10,6 +10,10 @@
  *  International Registered Trademark & Property of INVERTUS, UAB
  */
 
+ if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 use Invertus\AcademyERPIntegration\Config\TabConfig;
 use Invertus\AcademyERPIntegration\Install\Installer;
 use Invertus\AcademyERPIntegration\Install\Uninstaller;
