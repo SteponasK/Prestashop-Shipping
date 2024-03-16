@@ -19,7 +19,7 @@ use Invertus\AcademyERPIntegration\Install\Installer;
 use Invertus\AcademyERPIntegration\Install\Uninstaller;
 use Invertus\AcademyERPIntegration\Config\Config;
 
-class AcademyERPIntegration extends Module
+class AcademyERPIntegration extends CarrierModule
 {
     public function __construct()
     {
@@ -35,6 +35,16 @@ class AcademyERPIntegration extends Module
         $this->need_instance = 1;
     }
 
+    public function getOrderShippingCost()
+    {
+
+    }
+
+    public function getOrderShippingCostExternal()
+    {
+
+    }
+    
     /**
      * {@inheritdoc}
      */
