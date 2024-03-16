@@ -35,16 +35,16 @@ class AcademyERPIntegration extends CarrierModule
         $this->need_instance = 1;
     }
 
-    public function getOrderShippingCost()
+    public function getOrderShippingCost($params, $shipping_cost)
     {
 
     }
 
-    public function getOrderShippingCostExternal()
+    public function getOrderShippingCostExternal($params, $shipping_cost)
     {
 
     }
-    
+
     /**
      * {@inheritdoc}
      */
