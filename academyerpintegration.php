@@ -32,6 +32,7 @@ class AcademyERPIntegration extends Module
         $this->autoLoad();
         $this->displayName = $this->l('Academy ERP integration');
         $this->description = $this->l('This is module description');
+        $this->need_instance = 0;
     }
 
     /**
