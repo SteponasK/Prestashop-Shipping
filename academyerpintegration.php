@@ -31,8 +31,8 @@ class AcademyERPIntegration extends Module
         parent::__construct();
         $this->autoLoad();
         $this->displayName = $this->l('Academy ERP integration');
-        $this->description = $this->l('This is module description');
-        $this->need_instance = 0;
+        $this->description = $this->l('Print labels of shipment\'s, which can be saved to a Database with a press of a button');
+        $this->need_instance = 1;
     }
 
     /**
