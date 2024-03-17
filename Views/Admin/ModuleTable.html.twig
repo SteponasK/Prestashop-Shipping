@@ -4,7 +4,6 @@
             Save to Database
         </h3>
     </div>
-
     <div class="card-body">
 
         <form id="saveForm" method="POST" action="#">
@@ -94,6 +93,28 @@
         })
         .then(function (response) {
             console.log('Response:', response.data);
+            if(response.status === 201) {
+                var shipmentId = response.data;
+                var printButton = document.createElement('button');
+                printButton.innerText = 'Print Label';
+                printButton.className = 'btn btn-primary';
+                printButton.setAttribute('id', 'printButton');
+                printButton.setAttribute('data-shipment-id', shipmentId);
+                printButton.addEventListener('click', function() {
+                    axios.get('http://localhost:8000/api/shipment/print/' + shipmentId, {
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    })
+                    .then(function(response) {
+                        console.log('Label printed:', response.data);
+                    })
+                    .catch(function(error) {
+                        console.error('Error printing label:', error);
+                    });
+                });
+                document.getElementById('saveForm').appendChild(printButton);
+            }
         })
         .catch(function (error) {
             console.error('Error:', error);
