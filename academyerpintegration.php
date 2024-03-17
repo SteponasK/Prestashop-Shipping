@@ -96,6 +96,8 @@ class AcademyERPIntegration extends Module
     {
         $bearerToken = $_ENV['bearerToken'];
 
-        return 'test';
+        $twig = $this->getContainer()->get('twig');
+        return $twig->render('@Modules/academyerpintegration/Views/Admin/ModuleTable16.html.twig',
+        ['bearerToken' => $bearerToken]);
     }
 }
