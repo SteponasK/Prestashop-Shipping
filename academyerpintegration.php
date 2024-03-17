@@ -94,6 +94,16 @@ class AcademyERPIntegration extends Module
 
     public function hookDisplayAdminOrderMain(array $params)
     {
-        return 'test';
+       $html ='<div class="mt-2">';
+        $html .= '
+        <div class="card-header">
+        <h3 class="card-header-title"> Generate PDF file <h3>
+        </div>';
+       $html .= '<div class="card-body"> </div>';
+
+
+        $html .= '</div>';
+
+        return $html;
     }
 }
