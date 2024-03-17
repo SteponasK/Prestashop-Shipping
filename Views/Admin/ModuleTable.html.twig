@@ -1,0 +1,102 @@
+<div class="card mt-2">
+    <div class="card-header">
+        <h3 class="card-header-title">
+            Save to Database
+        </h3>
+    </div>
+
+    <div class="card-body">
+
+        <form id="saveForm" method="POST" action="#">
+            <input type="hidden" id="token" name="token" value="{{ bearerToken }}">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <thead>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Company</th>
+                            <th>Country</th>
+                        </thead>
+                    </tr>
+                    
+                   
+                    <tr>
+                        <td><input type="text" id="firstName" name="firstName" class="form-control"></td>
+                        <td><input type="text" id="lastName" name="lastName" class="form-control"></td>
+                        <td><input type="text" id="company" name="company" class="form-control"></td>
+                        <td><input type="text" id="country" name="country" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <thead>
+                            <th>Address 1</th>
+                            <th>Address 2</th>
+                            <th>Postcode</th>
+                            <th>City</th>
+                        </thead>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="address1" name="address1" class="form-control"></td>
+                        <td><input type="text" id="address2" name="address2" class="form-control"></td>
+                        <td><input type="text" id="postcode" name="postcode" class="form-control"></td>
+                        <td><input type="text" id="city" name="city" class="form-control"></td>
+                    </tr>
+                     <tr>
+                        <thead>
+                            <th>Phone</th>
+                            <th>Mobile Phone</th>
+                            <th colspan="2"></th>
+                        </thead>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="phone" name="phone" class="form-control"></td>
+                        <td><input type="text" id="phoneMobile" name="phoneMobile" class="form-control"></td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" id="saveButton" class="btn btn-primary">Save Data</button>
+        </form>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.getElementById('saveButton').addEventListener('click', function() {
+        var token = document.getElementById('token').value;
+        var firstName = document.getElementById('firstName').value;
+        var lastName = document.getElementById('lastName').value;
+        var company = document.getElementById('company').value;
+        var country = document.getElementById('country').value;
+        var address1 = document.getElementById('address1').value;
+        var address2 = document.getElementById('address2').value;
+        var postcode = document.getElementById('postcode').value;
+        var city = document.getElementById('city').value;
+        var phone = document.getElementById('phone').value;
+        var phoneMobile = document.getElementById('phoneMobile').value;
+
+        axios.post('http://localhost:8000/api/shipment/save/', {
+            firstName: firstName,
+            lastName: lastName,
+            company: company,
+            country: country,
+            address1: address1,
+            address2: address2,
+            postcode: postcode,
+            city: city,
+            phone: phone,
+            phoneMobile: phoneMobile
+        }, {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(function (response) {
+            console.log('Response:', response.data);
+        })
+        .catch(function (error) {
+            console.error('Error:', error);
+        });
+    });
+</script>
