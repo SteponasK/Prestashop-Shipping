@@ -8,3 +8,4 @@ var/
 .phpunit.cache
 composer.lock
 .env
+/config
