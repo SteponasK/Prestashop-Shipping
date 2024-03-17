@@ -94,83 +94,8 @@ class AcademyERPIntegration extends Module
 
     public function hookDisplayAdminOrderMain(array $params)
     {
-       $html ='<div class="card mt-2">
-       <div class="card-header">
-         <h3 class="card-header-title">
-           Save to Database
-         </h3>
-       </div>
-     
-       <div class="card-body">
-         
-         <div class="form-group row type-hidden ">
-         <div class="col-sm"></div>
+        $bearerToken = $_ENV['bearerToken'];
 
-       </div><table class="table">
-           <thead>
-             <tr>
-               <th class="table-head-firstName">First Name</th>
-               <th class="table-head-lastName">Last Name</th>
-               <th class="table-head-company">Company</th>
-               <th class="table-head-country">Country</th>
-               <th class="table-head-save">Save Data</th>
-               <th></th>
-             </tr>
-           </thead>
-           <tbody>
-                 <tr class="d-print-none">
-               <td><input type="text" id="firstName" name="firstName" class="form-control"></td>
-               <td><input type="text" id="lastName" name="lastName" class="form-control"></td>
-               <td><input type="text" id="company" name="company" class="form-control"></td>
-               <td><input type="text" id="country" name="country" class="form-control"></td>
-               
-               <td>
-                 <button type="submit" class="btn btn-primary btn-sm">Save Data</button>
-               </td>
-           </tr>
-           </tbody>
-           
-         </tbody>
-
-                    <thead>
-           <tr>
-             <th class="table-head-address1">Address 1</th>
-             <th class="table-head-address2">Address 2</th>
-             <th class="table-head-postcode">Postcode</th>
-             <th class="table-head-city">City</th>
-             <th class="table-head-print">Print Label</th>
-             <th></th>
-           </tr>
-         </thead>
-         <tbody>
-               <tr class="d-print-none">
-             <td><input type="text" id="address1" name="address1" class="form-control"></td>
-             <td><input type="text" id="address2" name="address2" class="form-control"></td>
-             <td><input type="text" id="postcode" name="postcode" class="form-control"></td>
-             <td><input type="text" id="city" name="city" class="form-control"></td>
-             
-             <td>
-               <button type="submit" class="btn btn-primary btn-sm">Print Label</button>
-             </td>
-         </tr>
-         </tbody>
-         <thead>
-         <tr>
-           <th class="table-head-phone">Phone</th>
-           <th class="table-head-phoneMobile">Phone Mobile</th>
-         </tr>
-       </thead>
-       <tbody>
-             <tr class="d-print-none">
-           <td><input type="text" id="phone" name="phone" class="form-control"></td>
-           <td><input type="text" id="phoneMobile" name="phoneMobile" class="form-control"></td>
-       </tr>
-       </tbody>
-         </table>
-     
-           </div>
-     </div>';
-
-        return $html;
+        return 'test';
     }
 }
