@@ -19,7 +19,7 @@ use Invertus\AcademyERPIntegration\Install\Installer;
 use Invertus\AcademyERPIntegration\Install\Uninstaller;
 use Invertus\AcademyERPIntegration\Config\Config;
 
-class AcademyERPIntegration extends CarrierModule
+class AcademyERPIntegration extends Module
 {
     public function __construct()
     {
@@ -34,17 +34,7 @@ class AcademyERPIntegration extends CarrierModule
         $this->description = $this->l('Print labels of shipment\'s, which can be saved to a Database with a press of a button');
         $this->need_instance = 1;
     }
-
-    public function getOrderShippingCost($params, $shipping_cost)
-    {
-
-    }
-
-    public function getOrderShippingCostExternal($params, $shipping_cost)
-    {
-
-    }
-
+    
     /**
      * {@inheritdoc}
      */
