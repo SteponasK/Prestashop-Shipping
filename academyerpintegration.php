@@ -34,7 +34,7 @@ class AcademyERPIntegration extends Module
         $this->description = $this->l('Print labels of shipment\'s, which can be saved to a Database with a press of a button');
         $this->need_instance = 1;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -90,5 +90,10 @@ class AcademyERPIntegration extends Module
         $autoLoadPath = $this->getLocalPath() . 'vendor/autoload.php';
 
         require_once $autoLoadPath;
+    }
+
+    public function hookDisplayAdminOrderMain(array $params)
+    {
+        return 'test';
     }
 }
