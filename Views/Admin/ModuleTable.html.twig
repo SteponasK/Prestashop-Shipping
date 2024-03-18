@@ -93,6 +93,9 @@
             console.log('Response:', response.data);
             if(response.status === 201) {
                 var shipmentId = response.data;
+
+                document.getElementById('saveButton').style.display = 'none';
+
                 var printButton = document.createElement('button');
                 printButton.innerText = 'Print Label';
                 printButton.className = 'btn btn-primary';
@@ -120,16 +123,16 @@
                         const byteArray = new Uint8Array(byteNumbers);
                         const blob = new Blob([byteArray], { type: 'application/pdf' });
 
-                        const dataUrl = 'data:application/pdf;base64,' + encodeURIComponent(decodedData);
+                        const url = URL.createObjectURL(blob);
 
-                        window.open(dataUrl);
+                        window.open(url);
 
                     })
                     .catch(function(error) {
                         console.error('Error printing label:', error);
                     });
                 });
-                document.getElementById('saveForm').appendChild(printButton);
+                document.getElementById('saveButton').parentNode.appendChild(printButton);
             }
         })
         .catch(function (error) {
