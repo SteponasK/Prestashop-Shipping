@@ -94,9 +94,28 @@ class AcademyERPIntegration extends Module
 
     public function hookDisplayAdminOrderMain(array $params)
     {
+        $order = new Order($params['id_order']);
+        $externalModuleName = Carrier::getCarrierByReference($order->getIdOrderCarrier())->external_module_name;
+
+        if ($externalModuleName == $this->name)
+        {
+            $twig = $this->getContainer()->get('twig');
+            $address = new Address($order->id_address_delivery);
+        
         $bearerToken = $_ENV['API_KEY'];
         $twig = $this->getContainer()->get('twig');
-        return   $twig->render('@Modules/academyerpintegration/Views/Admin/ModuleTable.html.twig',
-        ['bearerToken' => $bearerToken]);
+        return $twig->render('@Modules/academyerpintegration/Views/Admin/ModuleTable.html.twig',
+        ['bearerToken' => $bearerToken,
+        'company' => $address->company,
+        'firstName' => $address->firstname,
+        'lastName' => $address->lastname,
+        'city' => $address->city,
+        'country' => $address->country,
+        'address1' => $address->address1,
+        'address2' => $address->address2,
+        'postcode' => $address->postcode,
+        'phone' => $address->phone,
+        'phoneMobile' => $address->phone_mobile,]);
+        }
     }
 }
