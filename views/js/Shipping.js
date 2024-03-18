@@ -37,11 +37,9 @@ $(document).ready(function () {
             return response;
         };
     
-        postButton().then(async (response) => { 
-            console.log('response', response);    
+        postButton().then(async (response) => {   
             if (response.status === 201) { 
                 var shipmentId = await response.json();
-                console.log('201 status');
                 document.getElementById('saveButton').style.display = 'none';
     
                 var printButton = document.createElement('button');
