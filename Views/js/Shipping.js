@@ -1,6 +1,6 @@
 
 $(document).ready(function () { 
-    document.getElementById('saveButton').addEventListener('click', async function() {
+    document.getElementById('saveButton').addEventListener('click', function() {
         var token = document.getElementById('token').value;
         var firstName = document.getElementById('firstName').value;
         var lastName = document.getElementById('lastName').value;
@@ -34,11 +34,44 @@ $(document).ready(function () {
                 }
             });
     
-            return response.json();
+            return response;
         };
     
-        const response = await postButton();
-    });
+        postButton().then(async (response) => { 
+            console.log('response', response);    
+            if (response.status === 201) { 
+                var shipmentId = await response.json();
+                console.log('201 status');
+                document.getElementById('saveButton').style.display = 'none';
+    
+                var printButton = document.createElement('button');
+                printButton.innerText = 'Print Label';
+                printButton.className = 'btn btn-primary';
+                printButton.setAttribute('id', 'printButton');
+                printButton.setAttribute('data-shipment-id', shipmentId);
+                printButton.addEventListener('click', async function() {
+                    event.preventDefault();
+                    const printResponse = await fetch('http://localhost:8000/api/shipment/print/' + shipmentId, {
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    });
+                    const base64String = await printResponse.text(); 
+                    const byteCharacters = atob(base64String);
+                    const byteNumbers = new Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+                    const byteArray = new Uint8Array(byteNumbers);
+                    const pdfBlob = new Blob([byteArray], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(pdfBlob);
+                    window.open(url);
+                });
+                
+                document.getElementById('saveButton').parentNode.appendChild(printButton); 
+            }
+        });
+    }); 
 });
 
 
