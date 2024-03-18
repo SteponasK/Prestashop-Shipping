@@ -18,8 +18,6 @@
                             <th>Country</th>
                         </thead>
                     </tr>
-                    
-                   
                     <tr>
                         <td><input type="text" id="firstName" name="firstName" class="form-control"></td>
                         <td><input type="text" id="lastName" name="lastName" class="form-control"></td>
@@ -101,6 +99,7 @@
                 printButton.setAttribute('id', 'printButton');
                 printButton.setAttribute('data-shipment-id', shipmentId);
                 printButton.addEventListener('click', function() {
+                    event.preventDefault();
                     axios.get('http://localhost:8000/api/shipment/print/' + shipmentId, {
                         headers: {
                             'Authorization': 'Bearer ' + token
@@ -108,6 +107,23 @@
                     })
                     .then(function(response) {
                         console.log('Label printed:', response.data);
+                        var pdfContent = response.data;
+                        console.log('var pdfContent= ', pdfContent);
+                        var decodedData = atob(pdfContent);
+                        console.log('var decodedData= ', decodedData);
+                        
+                        const byteCharacters = decodedData;
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+                        const dataUrl = 'data:application/pdf;base64,' + encodeURIComponent(decodedData);
+
+                        window.open(dataUrl);
+
                     })
                     .catch(function(error) {
                         console.error('Error printing label:', error);
