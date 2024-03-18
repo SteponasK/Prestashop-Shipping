@@ -105,7 +105,7 @@ class AcademyERPIntegration extends Module
         $bearerToken =  Configuration::get('ERP_API_KEY');
 
         $twig = $this->getContainer()->get('twig');
-        return $twig->render('@Modules/academyerpintegration/Views/Admin/ModuleTable.html.twig',
+        return $twig->render('@Modules/academyerpintegration/views/Admin/ModuleTable.html.twig',
         ['bearerToken' => $bearerToken,
         'company' => $address->company,
         'firstName' => $address->firstname,
@@ -118,5 +118,11 @@ class AcademyERPIntegration extends Module
         'phone' => $address->phone,
         'phoneMobile' => $address->phone_mobile,]);
         }
+    }
+    public function hookActionAdminControllerSetMedia(array $params)
+    {
+        $this->context->controller->addJS(
+            $this->getPathUri() . 'views/js/Shipping.js'
+        );
     }
 }
