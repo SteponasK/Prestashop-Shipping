@@ -30,8 +30,8 @@ class AcademyERPIntegration extends Module
 
         parent::__construct();
         $this->autoLoad();
-        $this->displayName = $this->l('Academy ERP integration');
-        $this->description = $this->l('Print labels of shipment\'s, which can be saved to a Database with a press of a button');
+        $this->displayName = $this->l('Shipment PDF label Module');
+        $this->description = $this->l('Save shipments to the database, then generate a PDF file of a given shipment');
         $this->need_instance = 1;
     }
 
@@ -94,10 +94,9 @@ class AcademyERPIntegration extends Module
 
     public function hookDisplayAdminOrderMain(array $params)
     {
-        $bearerToken = $_ENV['bearerToken'];
-
+        $bearerToken = $_ENV['API_KEY'];
         $twig = $this->getContainer()->get('twig');
-        return $twig->render('@Modules/academyerpintegration/Views/Admin/ModuleTable16.html.twig',
+        return   $twig->render('@Modules/academyerpintegration/Views/Admin/ModuleTable.html.twig',
         ['bearerToken' => $bearerToken]);
     }
 }
