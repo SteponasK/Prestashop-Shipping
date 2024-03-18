@@ -30,9 +30,9 @@ class AdminAcademyERPIntegrationSettingsController extends AbstractAdminControll
             'test_setting' => [
                 'title' => $this->module->l('Test setting header'),
                 'fields' => [
-                    'AERP_TEST' => [
-                        'title' => $this->module->l('Test setting'),
-                        'type' => 'bool',
+                    'ERP_API_KEY' => [
+                        'title' => $this->module->l('Api Key'),
+                        'type' => 'text',
                     ],
                 ],
                 'submit' => [

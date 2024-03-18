@@ -102,7 +102,8 @@ class AcademyERPIntegration extends Module
             $twig = $this->getContainer()->get('twig');
             $address = new Address($order->id_address_delivery);
         
-        $bearerToken = $_ENV['API_KEY'];
+        $bearerToken =  Configuration::get('ERP_API_KEY');
+
         $twig = $this->getContainer()->get('twig');
         return $twig->render('@Modules/academyerpintegration/Views/Admin/ModuleTable.html.twig',
         ['bearerToken' => $bearerToken,
