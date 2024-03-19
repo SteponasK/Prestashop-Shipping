@@ -46,7 +46,10 @@ class Installer extends AbstractInstaller
         $this->installConfiguration();
         $this->installDb();
 
-        $this->installCarrier();
+        if(!$this->installCarrier())
+        {
+            return false;
+        }
 
         return true;
     }
