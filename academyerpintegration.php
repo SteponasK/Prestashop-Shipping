@@ -105,10 +105,8 @@ class AcademyERPIntegration extends CarrierModule
         $order = new Order($params['id_order']);
         $externalModuleName = Carrier::getCarrierByReference($order->getIdOrderCarrier())->external_module_name;
 
-        if(is_string($externalModuleName))
-        {
-                if ($externalModuleName == $this->name)
-            {
+
+            if(is_string($externalModuleName) && $externalModuleName == $this->name){
                 $twig = $this->getContainer()->get('twig');
                 $address = new Address($order->id_address_delivery);
             
@@ -128,7 +126,6 @@ class AcademyERPIntegration extends CarrierModule
             'phone' => $address->phone,
             'phoneMobile' => $address->phone_mobile,]);
             }
-        }
     }
 
     public function hookActionAdminControllerSetMedia(array $params)
