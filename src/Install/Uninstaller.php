@@ -46,11 +46,37 @@ class Uninstaller extends AbstractInstaller
         if (!$this->uninstallDb()) {
             return false;
         }
+        if(!$this->deleteCarriers())
+        {
+            return false;
+        }
 
-        
         return true;
     }
 
+    protected function deleteCarriers(): bool
+    {
+        $result = true;
+        $results = Db::getInstance()->executeS('SELECT id_carrier FROM `' . _DB_PREFIX_ .
+            'carrier` where external_module_name = "' . pSQL($this->module->module_name) . '"');
+        $idCarriers = array();
+        foreach ($results as $r) {
+            $idCarriers[] = $r['id_carrier'];
+        }
+        if (!empty($idCarriers)) {
+            $result &= Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ .
+                'carrier` where id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
+            $result &= Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ .
+                'carrier_zone` where id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
+            $result &= Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ .
+                'delivery` where id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
+            $result &= Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ .
+                'range_price` where id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
+            $result &= Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ .
+                'range_weight` where id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
+        }
+        return $result;
+    }
     private function uninstallConfiguration(): void
     {
         $configuration = InstallConfig::getConfigList();
