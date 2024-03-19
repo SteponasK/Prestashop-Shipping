@@ -16,7 +16,7 @@ use Configuration;
 use Db;
 use Invertus\AcademyERPIntegration\Config\InstallConfig;
 use AcademyERPIntegration;
-
+use DbQuery;
 /**
  * Class Uninstaller - responsible for module installation process
  */
@@ -54,43 +54,39 @@ class Uninstaller extends AbstractInstaller
         return true;
     }
 
+
+
     protected function deleteCarriers(): bool
     {
         $result = true;
-        $results = Db::getInstance()->executeS('SELECT id_carrier FROM `' . _DB_PREFIX_ .
-            'carrier` where external_module_name = "' . pSQL($this->module->module_name) . '"');
         $idCarriers = array();
-        foreach ($results as $r) {
+    
+        $query = new DbQuery();
+        $query->select('id_carrier');
+        $query->from('carrier', 'c');
+        $query->where('c.external_module_name = "' . pSQL($this->module->module_name) . '"');
+        $results = Db::getInstance()->executeS($query);
+    
+        foreach($results as $r){
             $idCarriers[] = $r['id_carrier'];
         }
-        if (!empty($idCarriers)) {
-            $result &= Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ .
-                'carrier` where id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
-            $result &= Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ .
-                'carrier_zone` where id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
-            $result &= Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ .
-                'delivery` where id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
-            $result &= Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ .
-                'range_price` where id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
-            $result &= Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ .
-                'range_weight` where id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
+
+        foreach($idCarriers as $idCarrier){
+            $carrier = new Carrier($idCarrier);
+            $carrier->delete();
         }
+
+        if(!empty($idCarriers)){
+            $result &= Db::getInstance()->delete('carrier', 'id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
+            $result &= Db::getInstance()->delete('carrier_zone', 'id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
+            $result &= Db::getInstance()->delete('delivery', 'id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
+            $result &= Db::getInstance()->delete('range_price', 'id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
+            $result &= Db::getInstance()->delete('range_weight', 'id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
+        }
+    
         return $result;
     }
-    private function uninstallConfiguration(): void
-    {
-        $configuration = InstallConfig::getConfigList();
-
-        if (empty($configuration)) {
-            return;
-        }
-
-        foreach (array_keys($configuration) as $name) {
-            if (!Configuration::deleteByName($name)) {
-                continue;
-            }
-        }
-    }
+    
 
     /**
      * Executes sql in uninstall.sql file which is used for uninstalling
