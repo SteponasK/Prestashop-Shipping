@@ -105,32 +105,36 @@ class AcademyERPIntegration extends CarrierModule
         $order = new Order($params['id_order']);
         $externalModuleName = Carrier::getCarrierByReference($order->getIdOrderCarrier())->external_module_name;
 
-        if ($externalModuleName == $this->name)
+        if(is_string($externalModuleName))
         {
-            $twig = $this->getContainer()->get('twig');
-            $address = new Address($order->id_address_delivery);
-        
-        $bearerToken =  Configuration::get('ERP_API_KEY');
+                if ($externalModuleName == $this->name)
+            {
+                $twig = $this->getContainer()->get('twig');
+                $address = new Address($order->id_address_delivery);
+            
+            $bearerToken =  Configuration::get('ERP_API_KEY');
 
-        $twig = $this->getContainer()->get('twig');
-        return $twig->render('@Modules/academyerpintegration/views/Admin/ModuleTable.html.twig',
-        ['bearerToken' => $bearerToken,
-        'company' => $address->company,
-        'firstName' => $address->firstname,
-        'lastName' => $address->lastname,
-        'city' => $address->city,
-        'country' => $address->country,
-        'address1' => $address->address1,
-        'address2' => $address->address2,
-        'postcode' => $address->postcode,
-        'phone' => $address->phone,
-        'phoneMobile' => $address->phone_mobile,]);
+            $twig = $this->getContainer()->get('twig');
+            return $twig->render('@Modules/academyerpintegration/views/Admin/ModuleTable.html.twig',
+            ['bearerToken' => $bearerToken,
+            'company' => $address->company,
+            'firstName' => $address->firstname,
+            'lastName' => $address->lastname,
+            'city' => $address->city,
+            'country' => $address->country,
+            'address1' => $address->address1,
+            'address2' => $address->address2,
+            'postcode' => $address->postcode,
+            'phone' => $address->phone,
+            'phoneMobile' => $address->phone_mobile,]);
+            }
         }
     }
+
     public function hookActionAdminControllerSetMedia(array $params)
     {
         $this->context->controller->addJS(
             $this->getPathUri() . 'views/js/Shipping.js'
         );
-    }
+    }       
 }
