@@ -75,6 +75,10 @@ class Installer extends AbstractInstaller
             $carrier->addZone($zone['id_zone']);
         }
 
+        if (!$carrier->add()) {
+            return false;
+        }
+        
         return true;
     }
     /**
