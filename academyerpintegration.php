@@ -19,7 +19,7 @@ use Invertus\AcademyERPIntegration\Install\Installer;
 use Invertus\AcademyERPIntegration\Install\Uninstaller;
 use Invertus\AcademyERPIntegration\Config\Config;
 
-class AcademyERPIntegration extends Module
+class AcademyERPIntegration extends CarrierModule
 {
     public function __construct()
     {
