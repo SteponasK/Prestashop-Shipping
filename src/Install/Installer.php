@@ -46,6 +46,8 @@ class Installer extends AbstractInstaller
         $this->installConfiguration();
         $this->installDb();
 
+        $this->installCarrier();
+
         return true;
     }
 
