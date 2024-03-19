@@ -70,6 +70,11 @@ class Installer extends AbstractInstaller
 
         $carrier->setTaxRulesGroup(0);
 
+        foreach (Zone::getZones(true) as $zone)
+        {
+            $carrier->addZone($zone['id_zone']);
+        }
+
         return true;
     }
     /**
