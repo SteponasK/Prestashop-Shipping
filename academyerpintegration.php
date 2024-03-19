@@ -38,6 +38,11 @@ class AcademyERPIntegration extends CarrierModule
     {
         // Implement Logic
     }
+
+    public function getOrderShippingCostExternal($cart)
+    {
+        return $this->getOrderShippingCost($cart, 0);
+    }
     /**
      * {@inheritdoc}
      */
