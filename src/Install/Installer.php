@@ -53,7 +53,10 @@ class Installer extends AbstractInstaller
 
         return true;
     }
-
+    private function installCarrier()
+    {
+        $carrier = new Carrier();
+    }
     /**
      * @return bool
      *
