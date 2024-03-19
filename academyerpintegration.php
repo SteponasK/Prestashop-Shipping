@@ -10,13 +10,16 @@
  *  International Registered Trademark & Property of INVERTUS, UAB
  */
 
+ if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 use Invertus\AcademyERPIntegration\Config\TabConfig;
 use Invertus\AcademyERPIntegration\Install\Installer;
 use Invertus\AcademyERPIntegration\Install\Uninstaller;
 use Invertus\AcademyERPIntegration\Config\Config;
-use PrestaShop\PrestaShop\Core\Exception\ContainerNotFoundException;
 
-class AcademyERPIntegration extends CarrierModule
+class AcademyERPIntegration extends Module
 {
     public function __construct()
     {
@@ -27,8 +30,9 @@ class AcademyERPIntegration extends CarrierModule
 
         parent::__construct();
         $this->autoLoad();
-        $this->displayName = $this->l('Academy ERP integration');
-        $this->description = $this->l('This is module description');
+        $this->displayName = $this->l('Shipment PDF label Module');
+        $this->description = $this->l('Save shipments to the database, then generate a PDF file of a given shipment');
+        $this->need_instance = 1;
     }
 
     /**
@@ -52,11 +56,9 @@ class AcademyERPIntegration extends CarrierModule
 
     /**
      * {@inheritdoc}
-     * @throws Exception
      */
     public function install(): bool
     {
-
         /** Symfony container not used intentionally */
         $installer = new Installer($this);
 
@@ -81,37 +83,6 @@ class AcademyERPIntegration extends CarrierModule
     }
 
     /**
-     * @param array $params
-     * @throws ContainerNotFoundException
-     */
-    public function hookDisplayAdminOrderMain(array $params)
-    {
-        $order = new Order($params['id_order']);
-        $externalModuleName = Carrier::getCarrierByReference($order->getIdOrderCarrier())->external_module_name;
-
-        if ($externalModuleName == $this->name)
-        {
-            $twig = $this->getContainer()->get('twig');
-            $address = new Address($order->id_address_delivery);
-
-            return $twig->render(
-                '@Modules/academyerpintegration/views/admin/shipping_label.html.twig',
-                [
-                    'cName' => $address->company,
-                    'fName' => $address->firstname,
-                    'lName' => $address->lastname,
-                    'city' => $address->city,
-                    'country' => $address->country,
-                    'address1' => $address->address1,
-                    'address2' => $address->address2,
-                    'postcode' => $address->postcode,
-                    'phone' => $address->phone,
-                    'mobile' => $address->phone_mobile,
-                ]);
-        }
-    }
-
-    /**
      * Autoload's project files from /src directory
      */
     private function autoLoad(): void
@@ -121,13 +92,37 @@ class AcademyERPIntegration extends CarrierModule
         require_once $autoLoadPath;
     }
 
-    public function getOrderShippingCost($params, $shipping_cost)
+    public function hookDisplayAdminOrderMain(array $params)
     {
-        // TODO: Implement getOrderShippingCost() method.
-    }
+        $order = new Order($params['id_order']);
+        $externalModuleName = Carrier::getCarrierByReference($order->getIdOrderCarrier())->external_module_name;
 
-    public function getOrderShippingCostExternal($params)
+        if ($externalModuleName == $this->name)
+        {
+            $twig = $this->getContainer()->get('twig');
+            $address = new Address($order->id_address_delivery);
+        
+        $bearerToken =  Configuration::get('ERP_API_KEY');
+
+        $twig = $this->getContainer()->get('twig');
+        return $twig->render('@Modules/academyerpintegration/views/Admin/ModuleTable.html.twig',
+        ['bearerToken' => $bearerToken,
+        'company' => $address->company,
+        'firstName' => $address->firstname,
+        'lastName' => $address->lastname,
+        'city' => $address->city,
+        'country' => $address->country,
+        'address1' => $address->address1,
+        'address2' => $address->address2,
+        'postcode' => $address->postcode,
+        'phone' => $address->phone,
+        'phoneMobile' => $address->phone_mobile,]);
+        }
+    }
+    public function hookActionAdminControllerSetMedia(array $params)
     {
-        // TODO: Implement getOrderShippingCostExternal() method.
+        $this->context->controller->addJS(
+            $this->getPathUri() . 'views/js/Shipping.js'
+        );
     }
 }
