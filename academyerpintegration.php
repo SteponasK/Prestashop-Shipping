@@ -34,7 +34,10 @@ class AcademyERPIntegration extends CarrierModule
         $this->description = $this->l('Save shipments to the database, then generate a PDF file of a given shipment');
         $this->need_instance = 1;
     }
-
+    public function getOrderShippingCost($cart, $shippingCost)
+    {
+        // Implement Logic
+    }
     /**
      * {@inheritdoc}
      */
