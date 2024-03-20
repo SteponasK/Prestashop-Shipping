@@ -58,7 +58,6 @@ class Uninstaller extends AbstractInstaller
 
     protected function deleteCarriers(): bool
     {
-        $result = true;
         $idCarriers = array();
     
         $query = new DbQuery();
@@ -66,16 +65,11 @@ class Uninstaller extends AbstractInstaller
         $query->from('carrier', 'c');
         $query->where('c.external_module_name = "' . pSQL($this->module->name) . '"');
         $results = Db::getInstance()->executeS($query);
-    
+        
         foreach($results as $r){
-            $idCarriers[] = $r['id_carrier'];
-        }
-
-        foreach($idCarriers as $idCarrier){
-            $carrier = new Carrier($idCarrier);
+            $carrier = new Carrier($r['id_carrier']);
             $carrier->delete();
-        }  
-        return $result;
+        }
     }
     
 
