@@ -56,7 +56,7 @@ class Installer extends AbstractInstaller
     private function installCarrier()
     {
         $carrier = new Carrier();
-        $carrier->name = $this->$module->$name;
+        $carrier->name = $this->module->name;
         $carrier->active = true;
         $carrier->deleted = false;
         $carrier->is_module = true;
