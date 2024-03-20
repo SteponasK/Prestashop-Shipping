@@ -74,16 +74,7 @@ class Uninstaller extends AbstractInstaller
         foreach($idCarriers as $idCarrier){
             $carrier = new Carrier($idCarrier);
             $carrier->delete();
-        }
-
-        if(!empty($idCarriers)){
-            $result &= Db::getInstance()->delete('carrier', 'id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
-            $result &= Db::getInstance()->delete('carrier_zone', 'id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
-            $result &= Db::getInstance()->delete('delivery', 'id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
-            $result &= Db::getInstance()->delete('range_price', 'id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
-            $result &= Db::getInstance()->delete('range_weight', 'id_carrier IN (' . pSQL(implode(',', array_map('intval', $idCarriers))) . ')');
-        }
-    
+        }  
         return $result;
     }
     
