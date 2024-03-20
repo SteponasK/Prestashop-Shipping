@@ -58,8 +58,6 @@ class Uninstaller extends AbstractInstaller
 
     protected function deleteCarriers(): bool
     {
-        $idCarriers = array();
-    
         $query = new DbQuery();
         $query->select('id_carrier');
         $query->from('carrier', 'c');
