@@ -64,7 +64,7 @@ class Uninstaller extends AbstractInstaller
         $query = new DbQuery();
         $query->select('id_carrier');
         $query->from('carrier', 'c');
-        $query->where('c.external_module_name = "' . pSQL($this->module->module_name) . '"');
+        $query->where('c.external_module_name = "' . pSQL($this->module->name) . '"');
         $results = Db::getInstance()->executeS($query);
     
         foreach($results as $r){
