@@ -46,9 +46,41 @@ class Installer extends AbstractInstaller
         $this->installConfiguration();
         $this->installDb();
 
+        if(!$this->installCarrier())
+        {
+            return false;
+        }
+
         return true;
     }
+    private function installCarrier()
+    {
+        $carrier = new Carrier();
+        $carrier->name = $this->module->name;
+        $carrier->active = true;
+        $carrier->deleted = false;
+        $carrier->is_module = true;
+        $carrier->external_module_name = $this->module->name;
 
+        $carrier->shipping_handling = false;
+        $carrier->shipping_external = true;
+        $carrier->range_behavior = false;
+        $carrier->need_range = true;
+        $carrier->is_free = true;
+
+        $carrier->setTaxRulesGroup(0);
+
+        foreach (Zone::getZones(true) as $zone)
+        {
+            $carrier->addZone($zone['id_zone']);
+        }
+
+        if (!$carrier->add()) {
+            return false;
+        }
+        
+        return true;
+    }
     /**
      * @return bool
      *

@@ -19,7 +19,7 @@ use Invertus\AcademyERPIntegration\Install\Installer;
 use Invertus\AcademyERPIntegration\Install\Uninstaller;
 use Invertus\AcademyERPIntegration\Config\Config;
 
-class AcademyERPIntegration extends Module
+class AcademyERPIntegration extends CarrierModule
 {
     public function __construct()
     {
@@ -34,7 +34,15 @@ class AcademyERPIntegration extends Module
         $this->description = $this->l('Save shipments to the database, then generate a PDF file of a given shipment');
         $this->need_instance = 1;
     }
+    public function getOrderShippingCost($cart, $shippingCost)
+    {
+        // Implement Logic
+    }
 
+    public function getOrderShippingCostExternal($cart)
+    {
+        return $this->getOrderShippingCost($cart, 0);
+    }
     /**
      * {@inheritdoc}
      */
@@ -97,8 +105,7 @@ class AcademyERPIntegration extends Module
         $order = new Order($params['id_order']);
         $externalModuleName = Carrier::getCarrierByReference($order->getIdOrderCarrier())->external_module_name;
 
-        if ($externalModuleName == $this->name)
-        {
+        if(is_string($externalModuleName) && $externalModuleName == $this->name){
             $twig = $this->getContainer()->get('twig');
             $address = new Address($order->id_address_delivery);
         
@@ -119,10 +126,11 @@ class AcademyERPIntegration extends Module
         'phoneMobile' => $address->phone_mobile,]);
         }
     }
+
     public function hookActionAdminControllerSetMedia(array $params)
     {
         $this->context->controller->addJS(
             $this->getPathUri() . 'views/js/Shipping.js'
         );
-    }
+    }       
 }

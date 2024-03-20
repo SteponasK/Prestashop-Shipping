@@ -16,7 +16,7 @@ use Configuration;
 use Db;
 use Invertus\AcademyERPIntegration\Config\InstallConfig;
 use AcademyERPIntegration;
-
+use DbQuery;
 /**
  * Class Uninstaller - responsible for module installation process
  */
@@ -46,24 +46,30 @@ class Uninstaller extends AbstractInstaller
         if (!$this->uninstallDb()) {
             return false;
         }
+        if(!$this->deleteCarriers())
+        {
+            return false;
+        }
 
         return true;
     }
 
-    private function uninstallConfiguration(): void
+
+
+    protected function deleteCarriers(): bool
     {
-        $configuration = InstallConfig::getConfigList();
-
-        if (empty($configuration)) {
-            return;
-        }
-
-        foreach (array_keys($configuration) as $name) {
-            if (!Configuration::deleteByName($name)) {
-                continue;
-            }
+        $query = new DbQuery();
+        $query->select('id_carrier');
+        $query->from('carrier', 'c');
+        $query->where('c.external_module_name = "' . pSQL($this->module->name) . '"');
+        $results = Db::getInstance()->executeS($query);
+        
+        foreach($results as $r){
+            $carrier = new Carrier($r['id_carrier']);
+            $carrier->delete();
         }
     }
+    
 
     /**
      * Executes sql in uninstall.sql file which is used for uninstalling
