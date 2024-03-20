@@ -8,14 +8,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.0.0
-
-    #   # Optional step compiling JS files
-    #   - name: Build JS dependencies
-    #     uses: PrestaShopCorp/github-action-build-js/12@v1.0
-    #     with:
-    #       cmd: yarn
-    #       path: ./views/js
-
+        
       # Install PHP dependencies (Production ONLY)
       - name: Install composer dependencies
         run: composer install --no-dev -o
