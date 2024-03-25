@@ -13,10 +13,10 @@ Carrier Module made for PrestaShop to easily print PDF Labels of a given Shipmen
 ## Usage
 * Information is prefilled already, change it according to your needs
 ![](./README-Pictures/hook.png)
-* After information is saved, the "Print Label" button appears
+* After information is saved, the "Print Label" button appears   
 ![](./README-Pictures/print-button.png)
 * Press it & PDF file should open in a new tab automatically!
-![](pdf-label.png)
+![](./README-Pictures/pdf-label.png)
 ## Getting Started
 
 - Clone repository
