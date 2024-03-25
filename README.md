@@ -10,6 +10,13 @@ Carrier Module made for PrestaShop to easily print PDF Labels of a given Shipmen
 - Automatically Install & Uninstall Carrier on module's Installation and Uninstallation
 - Github CI/CD Pipelines (Automatically create .zip Artifact to use in Production)
 
+## Usage
+* Information is prefilled already, change it according to your needs
+![](./README-Pictures/hook.png)
+* After information is saved, the "Print Label" button appears
+![](./README-Pictures/print-button.png)
+* Press it & PDF file should open in a new tab automatically!
+![](pdf-label.png)
 ## Getting Started
 
 - Clone repository
@@ -17,7 +24,7 @@ Carrier Module made for PrestaShop to easily print PDF Labels of a given Shipmen
 git clone https://github.com/SteponasK/Prestashop-Shipping.git
 ```
 - Add it to modules folder on a PrestaShop system
-- Go to Module Manager -> Others -> Install Module
+- Install module in: Modules -> Module Manager -> Others
 
 ### Prerequisites
 * Downloaded ERP Repository: [GitHub link](https://github.com/SteponasK/Prestashop-Shipping-ERP)
